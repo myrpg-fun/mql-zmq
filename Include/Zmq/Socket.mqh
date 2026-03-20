@@ -151,8 +151,8 @@ public:
    bool              send(bool nowait=false) {ZmqMsg m; return send(m,nowait);}
 
    //--- same as above 5 but for multipart messages
-   bool              sendMore(const uchar &buf[],bool nowait=false);
-   bool              sendConstMore(const uchar &buf[],bool nowait=false);
+   bool              sendMore(const uchar &buf[],bool nowait=false) {int flags=ZMQ_SNDMORE; if(nowait) flags|=ZMQ_DONTWAIT; return -1!=zmq_send(m_ref,buf,ArraySize(buf),flags);}
+   bool              sendConstMore(const uchar &buf[],bool nowait=false) {int flags=ZMQ_SNDMORE; if(nowait) flags|=ZMQ_DONTWAIT; return -1!=zmq_send_const(m_ref,buf,ArraySize(buf),flags);}
    bool              sendMore(ZmqMsg &msg,bool nowait=false)
      {
       int flags=ZMQ_SNDMORE;
